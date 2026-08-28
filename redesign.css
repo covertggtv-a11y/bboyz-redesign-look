@@ -1,0 +1,172 @@
+/* ============================================================
+   BBoyz RESPONSIVE REDESIGN — LOOK ONLY. Nothing here ships.
+
+   One markup, three widths. Everything is a token that already exists in styles.css:
+   no new colour, no new radius, no new type size. Blue + gold Precision is untouched.
+
+   The rule the whole redesign turns on:
+     PHONE  (<768)  one column, bottom tab bar, primary action FIRST.
+     TABLET (768+)  the single column becomes two bands — content uses the width.
+     DESKTOP(1024+) two real columns inside the post-rail space: the job on the left,
+                    its context on the right. No 122px dead gutters.
+
+   The existing left rail at >=1024 is kept as-is — it is already the Mercury bone
+   (worded nav). What changes is what happens to the RIGHT of it.
+   ============================================================ */
+
+.rd-shell { padding: 20px 16px 32px; }
+
+/* ---- the band that carries the day's one job ---- */
+.rd-primary {
+  background: var(--surface); border: 1px solid var(--accent-border);
+  border-radius: var(--radius-lg); padding: 18px; position: relative; overflow: hidden;
+}
+.rd-primary::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent);
+}
+.rd-kicker {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--brand-blue);
+}
+.rd-primary-title {
+  font-size: 26px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; margin-top: 8px; color: var(--text);
+}
+.rd-primary-meta {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted);
+  margin-top: 7px; letter-spacing: .05em;
+}
+.rd-primary .primary-btn { width: 100%; margin-top: 14px; min-height: 52px; }
+
+/* ---- section label ---- */
+.rd-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--text-muted); margin: 22px 0 10px; display: flex; align-items: center; gap: 10px;
+}
+.rd-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.rd-label .rd-label-side { color: var(--text-dim); letter-spacing: .06em; }
+
+/* ---- generic card + tiles ---- */
+.rd-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; }
+.rd-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rd-tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 13px; }
+.rd-tile-k {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--text-muted);
+}
+.rd-tile-v {
+  font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700;
+  color: var(--text); margin-top: 6px; font-variant-numeric: tabular-nums;
+}
+.rd-tile-v small { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+.rd-bar { height: 4px; border-radius: var(--radius-pill); background: var(--surface-3); margin-top: 9px; overflow: hidden; }
+.rd-bar i { display: block; height: 100%; background: var(--brand-blue); border-radius: var(--radius-pill); }
+.rd-bar.is-behind i { background: var(--accent); }
+
+/* ---- kcal headline ---- */
+.rd-kcal { display: flex; align-items: baseline; gap: 10px; }
+.rd-kcal-n {
+  font-family: 'JetBrains Mono', monospace; font-size: 38px; font-weight: 800;
+  letter-spacing: -.03em; line-height: 1; color: var(--text); font-variant-numeric: tabular-nums;
+}
+.rd-kcal-u {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--text-muted);
+}
+
+/* ---- ruled rows (log, lifts) ---- */
+.rd-rows { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); overflow: hidden; }
+.rd-row {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px;
+  padding: 12px 14px; border-top: 1px solid var(--border); min-height: 52px;
+}
+.rd-row:first-child { border-top: 0; }
+.rd-row-n { display: block; font-size: 15px; font-weight: 650; letter-spacing: -.01em; line-height: 1.25; }
+.rd-row-m {
+  display: block;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted);
+  margin-top: 3px; letter-spacing: .04em;
+}
+.rd-row-v { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-dim); white-space: nowrap; }
+.rd-row-go { color: var(--text-muted); font-size: 15px; }
+
+/* ---- the week strip (Sunsama bone) ---- */
+.rd-week { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 8px; }
+.rd-day {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 11px 9px; min-height: 92px; display: flex; flex-direction: column; gap: 6px;
+}
+.rd-day-k {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted);
+}
+.rd-day-v { font-size: 12.5px; font-weight: 650; line-height: 1.25; color: var(--text-dim); }
+.rd-day.is-today { border-color: var(--accent-border); background: var(--accent-bg); }
+.rd-day.is-today .rd-day-k { color: var(--accent); }
+.rd-day.is-today .rd-day-v { color: var(--text); }
+.rd-day.is-rest .rd-day-v { color: var(--text-muted); font-weight: 500; }
+.rd-day-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--brand-blue); margin-top: auto; }
+.rd-day.is-rest .rd-day-dot { background: var(--surface-3); }
+
+/* ---- set-entry strip (Train Fitness density, BBoyz face) ---- */
+.rd-lift { border-top: 1px solid var(--border); padding: 12px 14px; }
+.rd-lift:first-child { border-top: 0; }
+.rd-lift-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.rd-lift-n { font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+.rd-lift-t { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: .05em; }
+.rd-sets { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.rd-set {
+  min-width: 58px; min-height: 44px; padding: 6px 10px; display: grid; place-items: center;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--text-dim);
+}
+.rd-set.is-done { border-color: var(--accent-border); background: var(--accent-bg); color: var(--accent-dim); }
+.rd-set.is-next { border-color: var(--brand-blue); color: var(--text); }
+
+/* ---- timer ---- */
+.rd-timer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.rd-timer-v {
+  font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 700;
+  letter-spacing: -.02em; color: var(--text); font-variant-numeric: tabular-nums;
+}
+.rd-timer .secondary-btn { min-height: 44px; padding: 10px 18px; }
+
+/* ---- context rail items ---- */
+.rd-ctx { display: grid; gap: 12px; }
+.rd-ctx .rd-card { padding: 14px; }
+.rd-note { font-size: 13px; color: var(--text-dim); line-height: 1.5; margin-top: 10px; }
+
+/* ============================================================
+   TABLET — 768+. The single column becomes bands that use the width.
+   ============================================================ */
+@media (min-width: 768px) {
+  .rd-shell { padding: 26px 24px 40px; }
+  .rd-split { display: grid; grid-template-columns: 1.35fr 1fr; gap: 16px; align-items: start; }
+  /* Two across, not four: at 768 the right column is ~510px, and four tiles clipped
+     "104/175" to "104/17" — a different number, the silent-truncation class of bug. */
+  .rd-tiles { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .rd-primary { padding: 22px; }
+  .rd-primary-title { font-size: 30px; }
+  .rd-primary .primary-btn { width: auto; min-width: 260px; }
+  .rd-lifts-2up { display: grid; grid-template-columns: 1fr 1fr; }
+  /* Side by side the column is ~430px, so name + target on one line wrapped mid-phrase
+     ("Barbell Overhead / Press"). Stack them: the name owns its line, the target sits under it. */
+  .rd-lifts-2up .rd-lift-top { display: block; }
+  .rd-lifts-2up .rd-lift-t { display: block; margin-top: 4px; }
+  .rd-lifts-2up .rd-lift:nth-child(2) { border-top: 0; }
+  .rd-lifts-2up .rd-lift:nth-child(even) { border-left: 1px solid var(--border); }
+}
+
+/* ============================================================
+   DESKTOP — 1024+. Two real columns in the post-rail space.
+   The job on the left, its context on the right. This is the whole fix.
+   ============================================================ */
+@media (min-width: 1024px) {
+  /* The app already centres .view at 820px here, which is what leaves the dead gutters.
+     The redesign uses the space instead: a wider column, and two tracks inside it. */
+  .view.rd-view { max-width: 1240px; }
+  .rd-shell { padding: 28px 28px 52px; }
+  .rd-split { grid-template-columns: 1.55fr 1fr; gap: 20px; }
+  .rd-tiles { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .rd-primary-title { font-size: 34px; }
+  .rd-stack { display: grid; gap: 14px; align-content: start; }
+}

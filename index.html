@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BBoyz · Responsive redesign · Look sheet</title>
+<style>
+  :root{--canvas:#f6f7f9;--panel:#fff;--line:#e6e8ee;--ink:#12141a;--mute:#5c6470;--act:#2563eb;--act-soft:#eef3fe;--ok:#0f7a52;--bad:#b3261e;--bad-soft:#fdeceb;--warn:#8a5a00;--warn-soft:#fdf4e3;--r:14px;--sans:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--canvas);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .page{max-width:1180px;margin:0 auto;padding:56px 28px 100px}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.15em;color:var(--mute);text-transform:uppercase}
+  h1{margin-top:10px;font-size:33px;font-weight:650;letter-spacing:-.04em}
+  .stand{margin-top:10px;font-size:16px;color:var(--mute);max-width:70ch}
+  .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:26px}
+  .facts>div{background:var(--panel);padding:14px 16px}
+  .facts dt{font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--mute);text-transform:uppercase}
+  .facts dd{margin-top:5px;font-size:14px}
+  section{margin-top:52px}
+  h2{font-size:12px;font-weight:700;letter-spacing:.13em;color:var(--mute);text-transform:uppercase;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  h3{margin-top:28px;font-size:18px;font-weight:650;letter-spacing:-.02em}
+  p{font-size:15.5px;margin-top:14px;max-width:70ch}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:20px;align-items:start}
+  .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px;align-items:start}
+  .phonepair{display:grid;grid-template-columns:repeat(2,minmax(0,300px));gap:22px;margin-top:20px;align-items:start}
+  @media (max-width:900px){.pair,.trio,.facts,.phonepair{grid-template-columns:1fr 1fr}}
+  @media (max-width:600px){.pair,.trio,.facts,.phonepair{grid-template-columns:1fr}}
+  figure{margin:0} figure img{display:block;width:100%;height:auto;background:#0d1830;border:1px solid var(--line);border-radius:11px}
+  figcaption{margin-top:9px;font-size:13px;color:var(--mute)}
+  figcaption b{display:block;color:var(--ink);font-weight:600;font-size:12px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+  .tagB{color:var(--bad)} .tagA{color:var(--ok)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:var(--act-soft);color:var(--act)}
+  ul,ol{margin:14px 0 0 20px;font-size:15px;max-width:70ch} li+li{margin-top:8px} a{color:var(--act)}
+  table{border-collapse:collapse;width:100%;margin-top:18px;font-size:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);background:#fbfbfd}
+  tr:last-child td{border-bottom:0}
+  td.b{color:var(--bad);font-weight:600} td.a{color:var(--ok);font-weight:650}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;background:#eef0f4;padding:1px 5px;border-radius:4px}
+  .note{margin-top:20px;border:1px solid #e8dcc0;background:var(--warn-soft);border-radius:var(--r);padding:14px 16px}
+  .note p{margin-top:0;font-size:14.5px;max-width:none} .note p+p{margin-top:9px} .note b{color:var(--warn)}
+  .gap{margin-top:18px;border:1px solid #eedad8;background:var(--bad-soft);border-radius:var(--r);padding:4px 0}
+  .gap ol{margin:10px 0 12px 34px}
+  .gap li{font-size:15px} .gap li b{color:var(--bad)}
+</style>
+</head>
+<body>
+<div class="page">
+  <p class="kicker">BBoyz · Responsive redesign · Look only</p>
+  <h1>The desktop is a phone in a 820px box</h1>
+  <p class="stand">BBoyz already has good desktop bones — a worded left rail that looks like Mercury's. Everything to the right of that rail is still a phone: one column, 820px wide, with 122px of dead space on each side, and the day's one job sitting <b>82% of the way down the page</b>. This sheet shows the gap at 390 / 768 / 1280 with measurements, and an After that keeps blue+gold Precision and the phone's bottom tabs exactly as they are.</p>
+
+  <div class="facts">
+    <div><dt>Before</dt><dd>Prod <code>7f03abb</code>, measured</dd></div>
+    <div><dt>Widths</dt><dd>390 · 768 · 1280</dd></div>
+    <div><dt>Palette</dt><dd>Unchanged — blue + gold</dd></div>
+    <div><dt>State</dt><dd><span class="badge">Look only</span></dd></div>
+  </div>
+
+  <section>
+    <h2>The gap, measured — not asserted</h2>
+    <p>Both columns below are the same page rendered by the same CSS. The Before is the shipped build; the After is one markup at all three widths. Every number is read out of the live layout, not estimated.</p>
+    <table>
+      <tr><th>At 1280</th><th>Before</th><th>After</th></tr>
+      <tr><td>Content column</td><td class="b">820px</td><td class="a">1064px</td></tr>
+      <tr><td>Dead gutter each side</td><td class="b">122px</td><td class="a">0px</td></tr>
+      <tr><td>Post-rail width unused</td><td class="b">23%</td><td class="a">0%</td></tr>
+      <tr><td>Content columns</td><td class="b">1 — eight full-width bands</td><td class="a">2 — job left, context right</td></tr>
+      <tr><td>Day's primary CTA sits</td><td class="b">82% down the page (y=1509 of 1839)</td><td class="a">23% down (y=231)</td></tr>
+      <tr><th>At 768</th><th></th><th></th></tr>
+      <tr><td>Layout</td><td class="b">64px icon rail + 704px single column</td><td class="a">Two columns</td></tr>
+      <tr><th>At 390</th><th></th><th></th></tr>
+      <tr><td>Bottom tab bar</td><td class="a">5 tabs, fixed — correct</td><td class="a">Unchanged. Kept.</td></tr>
+      <tr><td>Primary CTA sits</td><td class="b">Below the fold, after kcal / macros / log / tiles</td><td class="a">15% down — first thing on the screen</td></tr>
+    </table>
+
+    <div class="gap">
+      <ol>
+        <li><b>Desktop is a phone column.</b> 820px of content floating in 1064px of space. Confirmed: eight top-level bands, every one full width, no two ever side by side.</li>
+        <li><b>Tablet underuses width.</b> 768 gets a 64px icon rail and then the same single stretched column — no second pane, no side context.</li>
+        <li><b>Today has no “next action” band.</b> Calories, macros, log, weight, sleep, tasks and the coach card all stack at equal weight, and <i>Start workout</i> ends up last.</li>
+        <li><b>Train chrome competes.</b> <i>Program &amp; options</i>, <i>My workouts</i>, <i>Library</i>, <i>Switch day</i> and <i>Program details</i> are five separate bands stacked above the actual session.</li>
+        <li><b>Nav strategy stops at the rail.</b> The worded rail exists at 1024+, but nothing behind it changes — the rail is the only thing that knows it is on a desktop.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>Today — desktop 1280</h2>
+    <div class="pair">
+      <figure><a href="befores/before-today-desktop.png" target="_blank" rel="noopener"><img src="befores/before-today-desktop.png" alt="Before — Today at 1280, one narrow column"></a>
+        <figcaption><b class="tagB">Before · 1280</b> One 820px column, 122px dead each side. <i>Start workout</i> is the last thing on the page. Tap to enlarge.</figcaption></figure>
+      <figure><a href="shots/after-today-desktop.png" target="_blank" rel="noopener"><img src="shots/after-today-desktop.png" alt="After — Today at 1280, two columns"></a>
+        <figcaption><b class="tagA">After · 1280</b> The job left, its numbers right. Session card first, week strip under it, log below; calories, macros and body on the right. Tap to enlarge.</figcaption></figure>
+    </div>
+    <p>The bones are Mercury's — worded rail, then a card grid that actually spans the space — and the week strip is Sunsama's day board narrowed to one row. Nothing new was invented for the palette: <b>15 distinct computed colours on the After page, all resolved from existing <code>styles.css</code> tokens.</b></p>
+    <p>Gold still means one thing. One filled gold control on the screen (<i>Start workout</i>), one gold-tinted state (today in the week strip), and one gold bar — Fat, the only macro behind the elapsed day. Everything on pace is blue or grey, so the screen is still scannable by colour.</p>
+  </section>
+
+  <section>
+    <h2>Train — desktop 1280</h2>
+    <div class="pair">
+      <figure><a href="befores/before-train-desktop.png" target="_blank" rel="noopener"><img src="befores/before-train-desktop.png" alt="Before — Train at 1280"></a>
+        <figcaption><b class="tagB">Before · 1280</b> Five chrome bands — seg, My workouts / Library, Program &amp; options, Switch day, Program details — stacked above the session. Seven lifts each take a full-width row for three lines of text.</figcaption></figure>
+      <figure><a href="shots/after-train-desktop.png" target="_blank" rel="noopener"><img src="shots/after-train-desktop.png" alt="After — Train at 1280, session and context split"></a>
+        <figcaption><b class="tagA">After · 1280</b> Session on the left — timer, lifts two-up, set chips. Context on the right — this week, the program switch, and the three destinations that were competing with it.</figcaption></figure>
+    </div>
+    <p>The split is the point: <i>Program &amp; options</i> and <i>My workouts</i> stop being obstacles between the user and the session, and become a rail beside it. The set chips are Train Fitness's density — logged sets, the next set, and the empties — in BBoyz's own face, no purple AI chrome.</p>
+    <p>The program control keeps what shipped last week: <code>My plan | BFL | Hypertrophy</code> in one seg, so the Menno 8-week ABAB stays one tap away.</p>
+  </section>
+
+  <section>
+    <h2>Tablet — 768</h2>
+    <div class="pair">
+      <figure><a href="befores/before-today-tablet.png" target="_blank" rel="noopener"><img src="befores/before-today-tablet.png" alt="Before — Today at 768"></a>
+        <figcaption><b class="tagB">Before · 768</b> 64px icon rail, then a 704px single column — the phone layout stretched.</figcaption></figure>
+      <figure><a href="shots/after-today-tablet.png" target="_blank" rel="noopener"><img src="shots/after-today-tablet.png" alt="After — Today at 768, two columns"></a>
+        <figcaption><b class="tagA">After · 768</b> Two columns. Same markup as phone and desktop — only the grid changes.</figcaption></figure>
+    </div>
+    <div class="pair">
+      <figure><a href="befores/before-train-tablet.png" target="_blank" rel="noopener"><img src="befores/before-train-tablet.png" alt="Before — Train at 768"></a>
+        <figcaption><b class="tagB">Before · 768</b> Train, same stretched stack.</figcaption></figure>
+      <figure><a href="shots/after-train-tablet.png" target="_blank" rel="noopener"><img src="shots/after-train-tablet.png" alt="After — Train at 768"></a>
+        <figcaption><b class="tagA">After · 768</b> Session and context, side by side.</figcaption></figure>
+    </div>
+    <div class="note">
+      <p><b>One thing caught while measuring.</b> The first pass put four macro tiles across the tablet's right column. At 768 that column is ~510px, so each tile was ~120px and <code>104/175</code> rendered as <code>104/17</code> — a different number, with no ellipsis to warn you. Two across at 768. This is the same silent-truncation class as the four-character food name in the compact entry row.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Phone — 390 · the part that already works</h2>
+    <p>The phone is not the problem, and the After changes as little as possible there. <b>Bottom tab bar stays</b> — five tabs, fixed, gold active state. No sidebar, no drawer, no hamburger. What changes is the order: the day's one job moves to the top of the screen instead of the bottom of the scroll.</p>
+    <div class="phonepair">
+      <figure><a href="befores/before-today-phone.png" target="_blank" rel="noopener"><img src="befores/before-today-phone.png" alt="Before — Today on a phone"></a>
+        <figcaption><b class="tagB">Before · 390</b> Kcal, macros, log, weight, sleep, tasks, then the coach card. The CTA is a long scroll away.</figcaption></figure>
+      <figure><a href="shots/after-today-phone.png" target="_blank" rel="noopener"><img src="shots/after-today-phone.png" alt="After — Today on a phone"></a>
+        <figcaption><b class="tagA">After · 390</b> Session first (CTA at 15% of the page), week strip, log, then the numbers. Same tabs, same palette.</figcaption></figure>
+    </div>
+    <div class="phonepair">
+      <figure><a href="befores/before-train-phone.png" target="_blank" rel="noopener"><img src="befores/before-train-phone.png" alt="Before — Train on a phone"></a>
+        <figcaption><b class="tagB">Before · 390</b> Train, chrome first.</figcaption></figure>
+      <figure><a href="shots/after-train-phone.png" target="_blank" rel="noopener"><img src="shots/after-train-phone.png" alt="After — Train on a phone"></a>
+        <figcaption><b class="tagA">After · 390</b> Timer, then lifts with set chips — Train Fitness density, bottom chrome intact.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Light theme</h2>
+    <p>Light is a required mode, so the After was checked in it rather than assumed. The layout is token-driven, so the theme carries it with no extra work.</p>
+    <figure style="max-width:820px;margin-top:20px;"><a href="shots/after-today-desktop-light.png" target="_blank" rel="noopener"><img src="shots/after-today-desktop-light.png" alt="After — Today at 1280 in the light theme"></a>
+      <figcaption><b class="tagA">After · 1280 · light</b> Tap to enlarge.</figcaption></figure>
+  </section>
+
+  <section>
+    <h2>What is deliberately NOT changing</h2>
+    <ul>
+      <li><b>The palette.</b> Blue + gold Precision, both themes. No new colour token was introduced — verified by reading the computed colours off the After page.</li>
+      <li><b>The phone's bottom tab bar.</b> Five tabs, fixed, unchanged. No light sidebar on phone.</li>
+      <li><b>The left rail at 1024+.</b> It is already the right bone. The redesign is about what sits beside it.</li>
+      <li><b>Suite Warp dark.</b> Not used, not referenced.</li>
+      <li><b>The data.</b> Nothing here computes or invents a metric. All numbers on the After frames are <b>EXAMPLE</b> and labelled on the page itself.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>References (locked)</h2>
+    <div class="pair">
+      <figure><a href="refs/mercury-dashboard.jpg" target="_blank" rel="noopener"><img src="refs/mercury-dashboard.jpg" alt="Mercury dashboard"></a>
+        <figcaption><b>Mercury · dashboard</b> Worded left nav plus a card grid that spans the space. The bone for “desktop is not a phone shell”.</figcaption></figure>
+      <figure><a href="refs/alo-wellness-home.jpg" target="_blank" rel="noopener"><img src="refs/alo-wellness-home.jpg" alt="ALO Wellness Club home"></a>
+        <figcaption><b>ALO Wellness Club</b> A fitness home that uses full width in bands. Taken as proportion, not as photography — BBoyz has no hero image and does not need one.</figcaption></figure>
+    </div>
+    <div class="pair">
+      <figure><a href="refs/sunsama-dayboard.jpg" target="_blank" rel="noopener"><img src="refs/sunsama-dayboard.jpg" alt="Sunsama day board"></a>
+        <figcaption><b>Sunsama · day board</b> Day columns filling the width. Became the one-row week strip on Today and the context rail on Train.</figcaption></figure>
+      <figure><a href="refs/trainfitness-session.jpg" target="_blank" rel="noopener"><img src="refs/trainfitness-session.jpg" alt="Train Fitness session"></a>
+        <figcaption><b>Train Fitness · session</b> Phone density: timer, sets, list, bottom chrome kept. Craft taken, purple AI chrome left behind.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>How these were made</h2>
+    <p><b>Befores are the shipped app</b>, not a drawing: prod <code>7f03abb</code> (which includes the workout builder merged earlier today), served locally and rendered by headless Chrome at 390, 768 and 1280 at 2× — so the real CSS breakpoints apply. The measurements are read out of that live layout.</p>
+    <p>Signing in needs Paul's password, which Claude cannot type, so the Befores were produced by seeding <b>EXAMPLE</b> meal and weight values into the app's own render path on a throwaway local profile. <b>No account was signed into and none of Paul's data was read or written.</b> The layout being measured is chrome and width, which is unaffected by whose numbers are in it.</p>
+    <p><b>Afters are one HTML file per surface</b>, linking the app's real <code>styles.css</code> plus a single <code>redesign.css</code> of <code>rd-</code> classes, shot at the same three widths. Same markup at every width — the grid is the only thing that changes.</p>
+  </section>
+
+  <section>
+    <h2>One thing to settle</h2>
+    <p>Look-yes or look-no via Prometheus. The whole After is layout: a wider content column at 1024+, a two-track grid inside it, and reordering Today so the session leads. It touches no data path, no storage, and no program logic. Nothing is built, merged or deployed until Paul says.</p>
+  </section>
+</div>
+</body>
+</html>

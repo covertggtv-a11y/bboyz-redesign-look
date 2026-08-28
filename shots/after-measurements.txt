@@ -1,0 +1,8 @@
+BBoyz redesign LOOK - After frames, same markup at 390/768/1280. EXAMPLE data.
+
+AFTER desktop 1280: width actually used: {"viewport":1280,"rail":216,"contentColumn":1064,"gutterLeft":0,"gutterRight":0,"unusedPct":0,"contentColumns":2}
+AFTER desktop: where the primary CTA sits: {"ctaTopPx":231,"pageHeightPx":1007,"pctDownPage":23}
+AFTER tablet 768: columns: {"viewport":768,"contentColumns":2,"macroTiles":2}
+AFTER phone 390: bottom tabs kept, CTA first: {"tabs":5,"navPosition":"fixed","contentColumns":1,"ctaPctDownPage":15}
+AFTER: tap targets: all >= 44x44
+AFTER: no new colour tokens introduced: 15 distinct computed colours (all resolved from styles.css tokens)

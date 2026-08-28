@@ -1,0 +1,10 @@
+BBoyz Befores - shipped prod tree 7f03abb, served locally, EXAMPLE data only.
+No account signed into; no live data touched.
+
+prod build under test: includes merged builder (7f03abb)
+seed: seeded EXAMPLE
+desktop 1280: content column vs viewport: {"viewport":1280,"rail":216,"contentColumn":820,"gutterLeft":122,"gutterRight":122,"unusedPct":23}
+desktop: how many columns of cards: stacked blocks=8, distinct rows=8 (equal => single column)
+tablet 768: content column vs viewport: {"viewport":768,"rail":64,"contentColumn":704,"singleColumn":true}
+phone 390: bottom tab bar present: {"position":"fixed","bottom":"0px","tabs":5}
+phone Today: primary CTA count above the fold: {"buttonsAboveFold":7,"filledPrimary":1}

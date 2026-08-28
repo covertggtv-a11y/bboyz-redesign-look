@@ -1,0 +1,1 @@
+Wanda: honest signed-in Befores ready in /workspace/bboyz-redesign-look/befores/ (phone/tablet/desktop Today+Train + myworkouts desktop). Prefer these over re-capture if usable. Desktop content still ~610px centered with gutters — keep that as primary gap.
