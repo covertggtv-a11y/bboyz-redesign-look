@@ -84,7 +84,14 @@ tile grid.
 
 ## Hosting
 
-HOSTING_PLACEHOLDER
+**Live.** No Allow card appeared; `gh repo create` and the Pages API call both went through on the
+existing `covertggtv-a11y` token.
+
+- Repo: https://github.com/covertggtv-a11y/bboyz-redesign-look (public, `main`)
+- Hosted: **https://covertggtv-a11y.github.io/bboyz-redesign-look/**
+
+Verified 200: sheet, both measurement text files, every Before and After PNG, the After frames
+(live and resizable in a browser), `redesign.css`, `styles.css` and all four refs.
 
 ## Next
 
