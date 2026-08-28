@@ -19,9 +19,10 @@ are read out of the live layout, not estimated.
 
 | At 1280 | Before | After |
 |---|---|---|
-| Content column | **820px** | 1064px |
-| Dead gutter each side | **122px** | 0px |
-| Post-rail width unused | **23%** | 0% |
+| Visible content card | **764px** | 1064px |
+| Empty space each side | **150px** | 0px |
+| Post-rail width unused | **28%** | 0% |
+| `.view` box (CSS `max-width`) | **820px**, 122px gutters | 1240px cap, fills |
 | Content columns | **1** (eight full-width bands) | 2 |
 | Day's primary CTA | **82% down the page** (y=1509 of 1839) | 23% down (y=231) |
 | **At 768** | 64px icon rail + **704px single column** | two columns |
@@ -57,6 +58,28 @@ no phone sidebar. All After numbers are **EXAMPLE** and labelled on the page.
 `refs/mercury-dashboard.jpg` · `refs/alo-wellness-home.jpg` · `refs/sunsama-dayboard.jpg` ·
 `refs/trainfitness-session.jpg` — all four seeded, all four used and credited on the sheet.
 
+## The one genuinely signed-in Before — and a number that did not check out
+
+`befores/before-myworkouts-desktop.png` is a **real signed-in capture** of Paul's account (his own
+saved plans). The headline measurement is taken from it by scanning the PNG: the rail ends at
+x=216, the content card runs x=366&ndash;1130 &mdash; **764px of content in 1064px of space, 150px dead on
+each side.** It is used on the sheet as the primary desktop evidence.
+
+**A note left in `befores/` said the desktop content was "~610px centered". I could not reproduce
+that.** Two independent measurements agree with each other and not with 610: reading the live
+layout gives `.view` = 820px (its CSS `max-width`), and scanning the screenshot gives a 764px
+visible card &mdash; which is exactly 820 minus 28px padding each side. Flagging it rather than quietly
+picking a number. **The gap is real on any of these figures**; at 610px it would only be worse.
+
+## Files in `befores/` were being written by two processes at once
+
+Genuine signed-in captures were landing in `befores/` while this run was capturing into the same
+folder, and **this run's captures overwrote several of them** — only the My workouts one survived.
+No conclusion here depends on that: the headline measurement is confirmed independently by the
+surviving capture and by the live layout. If more real signed-in Befores exist elsewhere, they can
+be dropped in and swapped into the sheet without changing anything. Saying so plainly because the
+overwrite was mine.
+
 ## Caveat stated plainly
 
 **The Befores were rendered with EXAMPLE meal/weight values seeded into the app's own render
@@ -76,7 +99,8 @@ tile grid.
 ## Paths
 
 - Sheet: `/workspace/bboyz-redesign-look/sheet.html`
-- Befores (9 PNGs + `before-measurements.txt`): `/workspace/bboyz-redesign-look/befores/`
+- Befores (10 PNGs + `before-measurements.txt`): `/workspace/bboyz-redesign-look/befores/`
+  &mdash; `before-myworkouts-desktop.png` is the genuine signed-in one
 - Afters (7 PNGs + `after-measurements.txt`): `/workspace/bboyz-redesign-look/shots/`
 - After frames (one markup per surface): `/workspace/bboyz-redesign-look/frames/`
 - New CSS under consideration: `/workspace/bboyz-redesign-look/redesign.css`

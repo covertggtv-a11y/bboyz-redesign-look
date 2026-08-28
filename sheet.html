@@ -49,6 +49,7 @@
   <p class="kicker">BBoyz · Responsive redesign · Look only</p>
   <h1>The desktop is a phone in a 820px box</h1>
   <p class="stand">BBoyz already has good desktop bones — a worded left rail that looks like Mercury's. Everything to the right of that rail is still a phone: one column, 820px wide, with 122px of dead space on each side, and the day's one job sitting <b>82% of the way down the page</b>. This sheet shows the gap at 390 / 768 / 1280 with measurements, and an After that keeps blue+gold Precision and the phone's bottom tabs exactly as they are.</p>
+  <p class="stand" style="margin-top:12px;">The headline number: at 1280 the card you actually look at is <b>764px wide inside 1064px of space</b> — 150px of nothing on each side, 28% of the width thrown away. That was measured pixel-by-pixel off a real signed-in screenshot, below.</p>
 
   <div class="facts">
     <div><dt>Before</dt><dd>Prod <code>7f03abb</code>, measured</dd></div>
@@ -62,9 +63,10 @@
     <p>Both columns below are the same page rendered by the same CSS. The Before is the shipped build; the After is one markup at all three widths. Every number is read out of the live layout, not estimated.</p>
     <table>
       <tr><th>At 1280</th><th>Before</th><th>After</th></tr>
-      <tr><td>Content column</td><td class="b">820px</td><td class="a">1064px</td></tr>
-      <tr><td>Dead gutter each side</td><td class="b">122px</td><td class="a">0px</td></tr>
-      <tr><td>Post-rail width unused</td><td class="b">23%</td><td class="a">0%</td></tr>
+      <tr><td>Visible content card</td><td class="b">764px</td><td class="a">1064px</td></tr>
+      <tr><td>Empty space each side of it</td><td class="b">150px</td><td class="a">0px</td></tr>
+      <tr><td>Post-rail width unused</td><td class="b">28%</td><td class="a">0%</td></tr>
+      <tr><td><code>.view</code> box (CSS <code>max-width</code>)</td><td class="b">820px, 122px gutters</td><td class="a">1240px cap, fills</td></tr>
       <tr><td>Content columns</td><td class="b">1 — eight full-width bands</td><td class="a">2 — job left, context right</td></tr>
       <tr><td>Day's primary CTA sits</td><td class="b">82% down the page (y=1509 of 1839)</td><td class="a">23% down (y=231)</td></tr>
       <tr><th>At 768</th><th></th><th></th></tr>
@@ -82,6 +84,25 @@
         <li><b>Train chrome competes.</b> <i>Program &amp; options</i>, <i>My workouts</i>, <i>Library</i>, <i>Switch day</i> and <i>Program details</i> are five separate bands stacked above the actual session.</li>
         <li><b>Nav strategy stops at the rail.</b> The worded rail exists at 1024+, but nothing behind it changes — the rail is the only thing that knows it is on a desktop.</li>
       </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>The one genuinely signed-in Before</h2>
+    <p>This capture is Paul's real account — his own saved plans, his own enabled sections. It is the
+    strongest single piece of evidence on this sheet, and it is where the headline measurement comes
+    from. The rail ends at x=216. The content card runs x=366 to x=1130. That is <b>764px of content
+    in 1064px of available space, with 150px of dead space on each side</b> — read off the PNG,
+    not estimated.</p>
+    <figure style="max-width:900px;margin-top:20px;"><a href="befores/before-myworkouts-desktop.png" target="_blank" rel="noopener"><img src="befores/before-myworkouts-desktop.png" alt="Before — Train / My workouts at 1280, signed in"></a>
+      <figcaption><b class="tagB">Before · 1280 · signed in</b> Train &rarr; My workouts. Two plan rows and a button, in a 764px column, on a 1280px screen. Tap to enlarge.</figcaption></figure>
+    <div class="note">
+      <p><b>A number in the working folder said ~610px. It could not be reproduced.</b> Measured two
+      independent ways on prod <code>7f03abb</code>: reading the live layout gives <code>.view</code>
+      = 820px (its CSS <code>max-width</code>), and scanning the screenshot above gives a 764px
+      visible card — which is 820 minus the 28px padding on each side, so the two agree. Flagging the
+      difference rather than quietly picking a number: <b>the gap is real either way</b>, and at 610px
+      it would only be worse.</p>
     </div>
   </section>
 
@@ -181,8 +202,17 @@
 
   <section>
     <h2>How these were made</h2>
-    <p><b>Befores are the shipped app</b>, not a drawing: prod <code>7f03abb</code> (which includes the workout builder merged earlier today), served locally and rendered by headless Chrome at 390, 768 and 1280 at 2× — so the real CSS breakpoints apply. The measurements are read out of that live layout.</p>
-    <p>Signing in needs Paul's password, which Claude cannot type, so the Befores were produced by seeding <b>EXAMPLE</b> meal and weight values into the app's own render path on a throwaway local profile. <b>No account was signed into and none of Paul's data was read or written.</b> The layout being measured is chrome and width, which is unaffected by whose numbers are in it.</p>
+    <p><b>One Before is a real signed-in capture</b> (Train &rarr; My workouts, above) and the headline
+    measurement is taken from it. The rest are the shipped app rendered locally: prod <code>7f03abb</code> (which includes the workout builder merged earlier today), served locally and rendered by headless Chrome at 390, 768 and 1280 at 2× — so the real CSS breakpoints apply. The measurements are read out of that live layout.</p>
+    <p>Signing in needs Paul's password, which Claude cannot type, so those Befores were produced by seeding <b>EXAMPLE</b> meal and weight values into the app's own render path on a throwaway local profile. <b>Claude signed into no account and read and wrote none of Paul's data.</b> The layout being measured is chrome and width, which is unaffected by whose numbers are in it &mdash; and the signed-in capture above confirms the same measurement.</p>
+    <div class="note">
+      <p><b>Worth knowing about this folder.</b> Genuine signed-in captures were being written into
+      <code>befores/</code> by another process at the same time as this run, and this run's captures
+      overwrote several of them. Only the My workouts one above survived. Nothing here depends on
+      that &mdash; the measurement is confirmed by it and by the live layout independently &mdash; but if
+      more real signed-in Befores exist, they can be dropped in and swapped into this sheet without
+      changing a single conclusion.</p>
+    </div>
     <p><b>Afters are one HTML file per surface</b>, linking the app's real <code>styles.css</code> plus a single <code>redesign.css</code> of <code>rd-</code> classes, shot at the same three widths. Same markup at every width — the grid is the only thing that changes.</p>
   </section>
 
