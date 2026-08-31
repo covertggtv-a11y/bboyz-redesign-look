@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PB BFL — multi-week builder look</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand-blue:#1f5eff; --brand-blue-deep:#07142b;
+  --gold:#d4a72c; --accent:#d4a72c; --accent-dim:#f0c75a;
+  --accent-bg:rgba(212,167,44,.12); --accent-border:rgba(212,167,44,.34);
+  --accent-contrast:#07101f;
+  --bg:#07101f; --surface:#0d1830; --surface-2:#13213b; --surface-3:#1b2d50;
+  --surface-raised:#172746; --border:#223452; --border-bright:#34517d;
+  --text:#edf4ff; --text-dim:#aebbd0; --text-muted:#8493aa;
+  --danger:#ef6464; --success:#35c77b; --warn:#e7a844;
+  --shadow-strong:rgba(0,0,0,.34);
+  --r-xs:4px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px; --r-pill:9999px;
+  --s-xxs:4px; --s-xs:8px; --s-sm:12px; --s-md:16px; --s-lg:20px; --s-xl:24px; --s-xxl:32px;
+  --sans:'Bricolage Grotesque',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050b16;font-family:var(--sans);color:var(--text);padding:32px 24px 56px}
+.sheet-title{font-size:22px;font-weight:600;letter-spacing:-.2px;margin-bottom:6px}
+.sheet-sub{font-size:14px;color:var(--text-muted);margin-bottom:28px;max-width:900px;line-height:1.5}
+.rail{display:flex;gap:28px;align-items:flex-start;overflow-x:auto;padding-bottom:16px}
+.frame{flex:0 0 390px;width:390px}
+.frame-cap{font-size:12px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+.frame-cap b{color:var(--accent-dim);font-weight:600}
+.phone{width:390px;height:844px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;position:relative;box-shadow:0 8px 24px var(--shadow-strong);display:flex;flex-direction:column}
+
+/* header */
+.hdr{height:56px;flex:0 0 56px;display:flex;align-items:center;gap:var(--s-sm);padding:0 var(--s-md);border-bottom:1px solid var(--border);background:rgba(7,16,31,.88)}
+.hdr-back{width:44px;height:44px;margin-left:-10px;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:20px}
+.hdr-t{font-size:18px;font-weight:700;letter-spacing:-.1px}
+.hdr-s{font-size:12px;color:var(--text-muted);margin-top:1px}
+.hdr-act{margin-left:auto;font-size:14px;font-weight:600;color:var(--brand-blue)}
+
+.body{flex:1;overflow:hidden;padding:var(--s-md);display:flex;flex-direction:column;gap:var(--s-sm)}
+
+/* nav */
+.nav{height:68px;flex:0 0 68px;border-top:1px solid var(--border);background:rgba(7,16,31,.94);display:flex;align-items:center;padding:0 var(--s-md)}
+.nav i{flex:1;text-align:center;font-size:11px;font-weight:600;color:var(--text-muted);font-style:normal;display:flex;flex-direction:column;gap:5px;align-items:center}
+.nav i span{width:20px;height:20px;border-radius:6px;background:var(--surface-3);display:block}
+.nav i.on{color:var(--accent)}
+.nav i.on span{background:var(--accent)}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--s-md)}
+.card-t{font-size:18px;font-weight:700;letter-spacing:-.1px}
+.lbl{font-size:13px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-muted)}
+.dim{color:var(--text-dim)}
+.mut{color:var(--text-muted)}
+.mono{font-family:var(--mono);font-weight:600}
+.row{display:flex;align-items:center;gap:var(--s-sm)}
+.sp{margin-left:auto}
+
+/* week strip */
+.weeks{display:flex;gap:var(--s-xs)}
+.wk{flex:1;min-height:64px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface-2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:var(--s-xs) 2px}
+.wk .n{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text-dim)}
+.wk .m{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.15}
+.wk.now{border-color:var(--accent-border);background:var(--accent-bg)}
+.wk.now .n{color:var(--accent)}
+.wk.now .m{color:var(--accent-dim)}
+.wk.flex{border-style:dashed;border-color:var(--border-bright)}
+.wk.todo .m{color:var(--text-muted);opacity:.72}
+
+/* week rows */
+.wrow{display:flex;align-items:center;gap:var(--s-sm);min-height:56px;padding:var(--s-xs) 0;border-bottom:1px solid var(--border)}
+.wrow:last-child{border-bottom:0}
+.wbadge{width:36px;height:36px;flex:0 0 36px;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-dim)}
+.wrow.now .wbadge{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent)}
+.wrow .ttl{font-size:16px;font-weight:600}
+.wrow .sub{font-size:13px;color:var(--text-muted);margin-top:2px}
+.chev{color:var(--text-muted);font-size:18px;width:24px;text-align:right}
+.pill{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:var(--r-pill);font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;background:var(--surface-3);color:var(--text-dim);border:1px solid var(--border)}
+.pill.now{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent)}
+.pill.set{background:rgba(31,94,255,.14);border-color:rgba(31,94,255,.4);color:#8fb0ff}
+
+/* buttons */
+.btn{min-height:48px;border-radius:var(--r-md);border:1px solid var(--border-bright);background:var(--surface-2);color:var(--text);font-family:var(--sans);font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-contrast)}
+.btn.ghost{background:transparent;border-style:dashed;color:var(--text-dim)}
+.btn.sm{min-height:44px;font-size:14px}
+
+/* exercise slot rows */
+.slot{border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface-2);padding:var(--s-sm);display:flex;flex-direction:column;gap:var(--s-xs)}
+.slot.locked{border-left:3px solid var(--accent)}
+.slot.free{border-style:dashed;background:transparent}
+.slot-top{display:flex;align-items:center;gap:var(--s-xs)}
+.slot-name{font-size:16px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.slot-tgt{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--text-muted);white-space:nowrap}
+.sets{display:flex;flex-direction:column;gap:6px}
+.setrow{display:flex;align-items:center;gap:8px}
+.setno{width:26px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--text-muted)}
+.inp{height:44px;flex:1;min-width:0;border-radius:var(--r-sm);border:1px solid var(--border-bright);background:var(--bg);color:var(--text);font-family:var(--mono);font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.inp.ghost{color:var(--text-muted);font-weight:500}
+.unit{font-size:12px;color:var(--text-muted);width:26px}
+.done{width:44px;height:44px;flex:0 0 44px;border-radius:var(--r-sm);border:1px solid var(--border-bright);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:16px}
+.done.on{background:var(--accent);border-color:var(--accent);color:var(--accent-contrast)}
+.lasttime{font-size:12px;color:var(--text-muted);font-family:var(--mono)}
+
+/* flex week choice */
+.choice{border:1px solid var(--border);border-radius:var(--r-lg);background:var(--surface);padding:var(--s-md);display:flex;flex-direction:column;gap:6px}
+.choice.on{border-color:var(--accent-border);background:var(--accent-bg)}
+.choice .ct{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.choice .cd{font-size:13px;color:var(--text-dim);line-height:1.45}
+.radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--border-bright);flex:0 0 20px}
+.choice.on .radio{border-color:var(--accent);background:radial-gradient(circle,var(--accent) 0 6px,transparent 6px)}
+
+/* 1RM table */
+.rm{display:flex;align-items:baseline;gap:var(--s-xs);padding:10px 0;border-bottom:1px solid var(--border)}
+.rm:last-child{border-bottom:0}
+.rm .n{font-size:15px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rm .v{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--accent)}
+.rm .src{font-family:var(--mono);font-size:11px;color:var(--text-muted);width:88px;text-align:right}
+.note{font-size:12px;color:var(--text-muted);line-height:1.5}
+
+.scrollfade{position:absolute;left:0;right:0;bottom:68px;height:40px;background:linear-gradient(transparent,var(--bg));pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="sheet-title">PB BFL — a multi-week custom block</div>
+<div class="sheet-sub">Four frames, phone width 390. The builder gains a <b>week dimension</b>: a block is N weeks, each week has a focus muscle, and any week can be marked flex. Week 4's muscle is left as "Tap to choose" so the block length question is answered in the UI, not by me. Frame 2 is the piece that does not exist today — logging against your own plan.</div>
+
+<div class="rail">
+
+<!-- ============ FRAME 1: BLOCK OVERVIEW ============ -->
+<div class="frame">
+  <div class="frame-cap">1 — <b>Block overview</b> · the new screen</div>
+  <div class="phone">
+    <div class="hdr">
+      <div class="hdr-back">‹</div>
+      <div>
+        <div class="hdr-t">PB BFL</div>
+        <div class="hdr-s">5-week block · Week 2 of 5</div>
+      </div>
+      <div class="hdr-act">Edit</div>
+    </div>
+    <div class="body">
+
+      <div class="weeks">
+        <div class="wk"><div class="n">W1</div><div class="m">Chest</div></div>
+        <div class="wk now"><div class="n">W2</div><div class="m">Biceps</div></div>
+        <div class="wk"><div class="n">W3</div><div class="m">Triceps</div></div>
+        <div class="wk todo"><div class="n">W4</div><div class="m">Tap to<br>choose</div></div>
+        <div class="wk flex"><div class="n">W5</div><div class="m">Flex</div></div>
+      </div>
+
+      <div class="card" style="padding:var(--s-xs) var(--s-md)">
+        <div class="wrow now">
+          <div class="wbadge">W2</div>
+          <div style="flex:1;min-width:0">
+            <div class="ttl">Biceps week</div>
+            <div class="sub">Mon · Wed upper · Fri biceps</div>
+          </div>
+          <div class="pill now">Now</div>
+        </div>
+        <div class="wrow">
+          <div class="wbadge">Mo</div>
+          <div style="flex:1;min-width:0">
+            <div class="ttl">Upper body</div>
+            <div class="sub">Freestyle · 4 logged last time</div>
+          </div>
+          <div class="chev">›</div>
+        </div>
+        <div class="wrow">
+          <div class="wbadge">We</div>
+          <div style="flex:1;min-width:0">
+            <div class="ttl">Upper body</div>
+            <div class="sub">Freestyle</div>
+          </div>
+          <div class="chev">›</div>
+        </div>
+        <div class="wrow">
+          <div class="wbadge">Fr</div>
+          <div style="flex:1;min-width:0">
+            <div class="ttl">Biceps focus</div>
+            <div class="sub">2 set · 2 freestyle</div>
+          </div>
+          <div class="pill set">2 set</div>
+          <div class="chev">›</div>
+        </div>
+      </div>
+
+      <div class="card" style="display:flex;flex-direction:column;gap:8px">
+        <div class="lbl">Week 4</div>
+        <div class="note">You have not picked a muscle for week 4. Pick one and the block runs 4 focus weeks then flex. Leave it and the block ends after week 3's flex.</div>
+        <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:2px">
+          <div class="pill">Back</div><div class="pill">Shoulders</div>
+          <div class="pill">Quads</div><div class="pill">Chest again</div>
+        </div>
+      </div>
+
+      <button class="btn primary" style="margin-top:auto">Start Monday's workout</button>
+    </div>
+    <div class="scrollfade"></div>
+    <div class="nav">
+      <i><span></span>Today</i><i class="on"><span></span>Train</i><i><span></span>Eat</i><i><span></span>Stats</i><i><span></span>Records</i>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FRAME 2: FOCUS DAY, LOGGABLE ============ -->
+<div class="frame">
+  <div class="frame-cap">2 — <b>Focus day, loggable</b> · does not exist today</div>
+  <div class="phone">
+    <div class="hdr">
+      <div class="hdr-back">‹</div>
+      <div>
+        <div class="hdr-t">Friday · Chest focus</div>
+        <div class="hdr-s">PB BFL · Week 1 of 5</div>
+      </div>
+      <div class="hdr-act">Finish</div>
+    </div>
+    <div class="body" style="gap:10px">
+
+      <div class="row">
+        <div class="pill now">Chest week</div>
+        <div class="pill set">2 set</div>
+        <div class="sp mono mut" style="font-size:13px">2 of 4 done</div>
+      </div>
+
+      <div class="slot locked">
+        <div class="slot-top">
+          <div class="slot-name">Barbell Bench Press</div>
+          <div class="slot-tgt">3 × 8</div>
+        </div>
+        <div class="lasttime">Last time · 135 lb × 8, 8, 7</div>
+        <div class="sets">
+          <div class="setrow"><div class="setno">1</div><div class="inp">140</div><div class="unit">lb</div><div class="inp">8</div><div class="unit">rep</div><div class="done on">✓</div></div>
+          <div class="setrow"><div class="setno">2</div><div class="inp">140</div><div class="unit">lb</div><div class="inp">8</div><div class="unit">rep</div><div class="done on">✓</div></div>
+          <div class="setrow"><div class="setno">3</div><div class="inp ghost">140</div><div class="unit">lb</div><div class="inp ghost">8</div><div class="unit">rep</div><div class="done">✓</div></div>
+        </div>
+      </div>
+
+      <div class="slot locked">
+        <div class="slot-top">
+          <div class="slot-name">Incline Dumbbell Press</div>
+          <div class="slot-tgt">3 × 10</div>
+        </div>
+        <div class="lasttime">No history yet</div>
+        <div class="sets">
+          <div class="setrow"><div class="setno">1</div><div class="inp ghost">—</div><div class="unit">lb</div><div class="inp ghost">—</div><div class="unit">rep</div><div class="done">✓</div></div>
+        </div>
+      </div>
+
+      <div class="lbl" style="margin-top:2px">Freestyle · your pick</div>
+
+      <div class="slot free">
+        <div class="slot-top">
+          <div class="slot-name mut" style="font-weight:500">Choose an exercise</div>
+          <div class="slot-tgt">3 × 10</div>
+        </div>
+      </div>
+
+      <button class="btn ghost sm">+ Add exercise</button>
+    </div>
+    <div class="scrollfade"></div>
+    <div class="nav">
+      <i><span></span>Today</i><i class="on"><span></span>Train</i><i><span></span>Eat</i><i><span></span>Stats</i><i><span></span>Records</i>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FRAME 3: FREESTYLE DAY ============ -->
+<div class="frame">
+  <div class="frame-cap">3 — <b>Freestyle day</b> · Monday upper</div>
+  <div class="phone">
+    <div class="hdr">
+      <div class="hdr-back">‹</div>
+      <div>
+        <div class="hdr-t">Monday · Upper body</div>
+        <div class="hdr-s">PB BFL · Week 1 of 5</div>
+      </div>
+      <div class="hdr-act">Finish</div>
+    </div>
+    <div class="body" style="gap:10px">
+
+      <div class="card" style="background:var(--surface-2);padding:var(--s-sm)">
+        <div class="note">Nothing is set for this day. Add what you feel like — it still counts toward your records and your 1RM estimates.</div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-top">
+          <div class="slot-name">Lat Pulldown</div>
+          <div class="slot-tgt">3 × 10</div>
+        </div>
+        <div class="lasttime">Last time · 120 lb × 10, 10, 9</div>
+        <div class="sets">
+          <div class="setrow"><div class="setno">1</div><div class="inp">120</div><div class="unit">lb</div><div class="inp">10</div><div class="unit">rep</div><div class="done on">✓</div></div>
+          <div class="setrow"><div class="setno">2</div><div class="inp ghost">120</div><div class="unit">lb</div><div class="inp ghost">10</div><div class="unit">rep</div><div class="done">✓</div></div>
+        </div>
+      </div>
+
+      <button class="btn ghost sm">+ Add exercise</button>
+
+      <div class="lbl" style="margin-top:6px">Suggested from your library</div>
+      <div class="row" style="gap:6px;flex-wrap:wrap">
+        <div class="pill">Seated Row</div>
+        <div class="pill">DB Shoulder Press</div>
+        <div class="pill">Face Pull</div>
+        <div class="pill">EZ-Bar Curl</div>
+      </div>
+
+      <button class="btn primary" style="margin-top:auto">Finish workout</button>
+    </div>
+    <div class="scrollfade"></div>
+    <div class="nav">
+      <i><span></span>Today</i><i class="on"><span></span>Train</i><i><span></span>Eat</i><i><span></span>Stats</i><i><span></span>Records</i>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FRAME 4: FLEX WEEK ============ -->
+<div class="frame">
+  <div class="frame-cap">4 — <b>Flex week</b> · light or max</div>
+  <div class="phone">
+    <div class="hdr">
+      <div class="hdr-back">‹</div>
+      <div>
+        <div class="hdr-t">Week 5 · Flex</div>
+        <div class="hdr-s">PB BFL · pick how you run it</div>
+      </div>
+    </div>
+    <div class="body" style="gap:10px">
+
+      <div class="choice">
+        <div class="ct"><span class="radio"></span>Light week</div>
+        <div class="cd">Same exercises, weights cut to 60% of what you lifted in weeks 1–4. Reps stay. Take it easy.</div>
+      </div>
+
+      <div class="choice on">
+        <div class="ct"><span class="radio"></span>Max week</div>
+        <div class="cd">Same exercises, low reps and heavy. Targets below come from your logged sets in weeks 1–4.</div>
+      </div>
+
+      <div class="card" style="display:flex;flex-direction:column;gap:2px">
+        <div class="row" style="margin-bottom:6px">
+          <div class="lbl">Estimated 1RM</div>
+          <div class="sp mono mut" style="font-size:11px">FROM · BEST SET</div>
+        </div>
+        <div class="rm"><div class="n">Barbell Bench Press</div><div class="v">175</div><div class="src">140×8 · W1</div></div>
+        <div class="rm"><div class="n">Incline DB Press</div><div class="v">78</div><div class="src">60×9 · W3</div></div>
+        <div class="rm"><div class="n">EZ-Bar Curl</div><div class="v">96</div><div class="src">75×8 · W2</div></div>
+        <div class="rm"><div class="n">Lat Pulldown</div><div class="v">160</div><div class="src">120×10 · W2</div></div>
+        <div class="rm"><div class="n">Triceps Pushdown</div><div class="v mut" style="color:var(--text-muted);font-size:14px">Not enough</div><div class="src">1 set</div></div>
+      </div>
+
+      <div class="note">Estimates use Epley on your heaviest logged set — the same maths the Records tab already shows. Anything with fewer than two logged sets stays blank rather than guessing.</div>
+
+      <button class="btn primary" style="margin-top:auto">Run week 5 as a max week</button>
+    </div>
+    <div class="scrollfade"></div>
+    <div class="nav">
+      <i><span></span>Today</i><i class="on"><span></span>Train</i><i><span></span>Eat</i><i><span></span>Stats</i><i><span></span>Records</i>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
