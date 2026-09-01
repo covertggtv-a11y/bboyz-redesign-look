@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PB BFL v3 — the 16/14/12/10 ladder, supersets, flex slots</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand-blue:#1f5eff; --gold:#d4a72c; --accent:#d4a72c; --accent-dim:#f0c75a;
+  --accent-bg:rgba(212,167,44,.12); --accent-border:rgba(212,167,44,.34); --accent-contrast:#07101f;
+  --bg:#07101f; --surface:#0d1830; --surface-2:#13213b; --surface-3:#1b2d50;
+  --border:#223452; --border-bright:#34517d;
+  --text:#edf4ff; --text-dim:#aebbd0; --text-muted:#8493aa;
+  --shadow-strong:rgba(0,0,0,.34);
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px; --r-pill:9999px;
+  --sans:'Bricolage Grotesque',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050b16;font-family:var(--sans);color:var(--text);padding:32px 24px 56px}
+.sheet-title{font-size:22px;font-weight:600;letter-spacing:-.2px;margin-bottom:6px}
+.sheet-sub{font-size:14px;color:var(--text-muted);margin-bottom:26px;max-width:960px;line-height:1.55}
+.sheet-sub b{color:var(--accent-dim);font-weight:600}
+.rail{display:flex;gap:28px;align-items:flex-start;overflow-x:auto;padding-bottom:16px}
+.frame{flex:0 0 390px;width:390px}
+.frame-cap{font-size:12px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+.frame-cap b{color:var(--accent-dim);font-weight:600}
+.phone{width:390px;height:900px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;position:relative;box-shadow:0 8px 24px var(--shadow-strong);display:flex;flex-direction:column}
+.hdr{height:56px;flex:0 0 56px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--border);background:rgba(7,16,31,.88)}
+.hdr-back{width:38px;height:44px;margin-left:-10px;display:flex;align-items:center;color:var(--text-dim);font-size:20px}
+.hdr-t{font-size:17px;font-weight:700;letter-spacing:-.1px}
+.hdr-s{font-size:12px;color:var(--text-muted);margin-top:1px}
+.hdr-act{margin-left:auto;font-size:14px;font-weight:600;color:var(--brand-blue)}
+.body{flex:1;overflow:hidden;padding:14px;display:flex;flex-direction:column;gap:11px}
+.nav{height:64px;flex:0 0 64px;border-top:1px solid var(--border);background:rgba(7,16,31,.94);display:flex;align-items:center;padding:0 16px}
+.nav i{flex:1;text-align:center;font-size:11px;font-weight:600;color:var(--text-muted);font-style:normal;display:flex;flex-direction:column;gap:5px;align-items:center}
+.nav i span{width:18px;height:18px;border-radius:6px;background:var(--surface-3);display:block}
+.nav i.on{color:var(--accent)} .nav i.on span{background:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px}
+.lbl{font-size:12px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-muted)}
+.mut{color:var(--text-muted)}
+.row{display:flex;align-items:center;gap:10px}
+.pill{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:var(--r-pill);font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--surface-3);color:var(--text-dim);border:1px solid var(--border);white-space:nowrap}
+.pill.now{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent)}
+.pill.flexs{border-style:dashed;background:transparent;color:var(--accent-dim);border-color:var(--accent-border)}
+.pill.extra{background:rgba(31,94,255,.16);border-color:rgba(31,94,255,.45);color:#8fb0ff}
+.btn{min-height:46px;border-radius:var(--r-md);border:1px solid var(--border-bright);background:var(--surface-2);color:var(--text);font-family:var(--sans);font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-contrast)}
+.btn.ghost{background:transparent;border-style:dashed;color:var(--text-dim)}
+.btn.sm{min-height:42px;font-size:14px}
+
+/* exercise card with the real ladder */
+.exc{border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);padding:12px}
+.exc.flexslot{border-style:dashed;border-color:var(--accent-border)}
+.exc-head{display:flex;align-items:baseline;gap:8px}
+.exc-n{font-size:16px;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.exc-t{font-family:var(--mono);font-size:12px;color:var(--text-muted);white-space:nowrap}
+.exc-sub{font-size:11px;color:var(--text-muted);margin-top:3px}
+.grid-head{display:grid;grid-template-columns:78px 1fr 1fr;gap:7px;padding:8px 0 5px;margin-top:8px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.srow{display:grid;grid-template-columns:78px 1fr 1fr;gap:7px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+.srow:last-child{border-bottom:0}
+.snum{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text-dim);line-height:1.3}
+.snum em{display:block;font-style:normal;font-size:10px;color:var(--text-muted);margin-top:2px}
+.inp{height:40px;border-radius:var(--r-sm);border:1px solid var(--border-bright);background:var(--bg);color:var(--text);font-family:var(--mono);font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.inp.ph{color:var(--text-muted);font-weight:500}
+.ss{border-left:2px solid var(--accent);padding-left:7px;margin-left:-9px}
+.ss-tag{grid-column:1 / -1;font-family:var(--mono);font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-dim);padding:7px 0 1px}
+.note{font-size:11px;color:var(--text-muted);line-height:1.5}
+.callout{border:1px solid var(--accent-border);background:var(--accent-bg);border-radius:var(--r-md);padding:11px;font-size:12px;color:var(--accent-dim);line-height:1.5}
+.weeks{display:flex;gap:6px}
+.wk{flex:1;min-height:52px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface-2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 2px}
+.wk .n{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text-dim)}
+.wk .m{font-size:9px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.15}
+.wk.now{border-color:var(--accent-border);background:var(--accent-bg)}
+.wk.now .n{color:var(--accent)} .wk.now .m{color:var(--accent-dim)}
+.wk.flex{border-style:dashed;border-color:var(--border-bright)}
+.scrollfade{position:absolute;left:0;right:0;bottom:64px;height:34px;background:linear-gradient(transparent,var(--bg));pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="sheet-title">PB BFL v3 — your ladder, your supersets, your flex slots</div>
+<div class="sheet-sub">Three corrections from your last message are in here. <b>The week's muscle adds an exercise to Friday</b> rather than meaning "go heavier". <b>Every slot runs 16/14/12/10 then a superset of 16 + 16</b>, and Friday runs the same ladder without the superset. <b>Monday and Wednesday each have one flex slot, Friday has two</b>, where you change the target muscle so you can drop legs in. The app already has this exact ladder machinery for Body-for-LIFE, so this reuses it rather than inventing a second one.</div>
+
+<div class="rail">
+
+<!-- FRAME 1: Monday, superset format -->
+<div class="frame">
+  <div class="frame-cap">1 — <b>Monday</b> · ladder + superset</div>
+  <div class="phone">
+    <div class="hdr">
+      <div class="hdr-back">‹</div>
+      <div><div class="hdr-t">Monday · Upper body</div><div class="hdr-s">PB BFL · cycle 1 · week 1</div></div>
+      <div class="hdr-act">Finish</div>
+    </div>
+    <div class="body">
+      <div class="row"><span class="pill now">Week 1 · chest</span><span class="pill">3 exercises</span></div>
+
+      <div class="exc">
+        <div class="exc-head"><span class="exc-n">Barbell Bench Press</span><span class="exc-t">16/14/12/10</span></div>
+        <div class="exc-sub">Superset with Incline DB Press</div>
+        <div class="grid-head"><span>Set</span><span>Weight</span><span>Reps</span></div>
+        <div class="srow"><span class="snum">1<em>16 reps</em></span><span class="inp">95</span><span class="inp">16</span></div>
+        <div class="srow"><span class="snum">2<em>14 reps</em></span><span class="inp">115</span><span class="inp">14</span></div>
+        <div class="srow"><span class="snum">3<em>12 reps</em></span><span class="inp">135</span><span class="inp">12</span></div>
+        <div class="srow"><span class="snum">4<em>10 reps</em></span><span class="inp ph">---</span><span class="inp ph">---</span></div>
+        <div class="srow ss"><span class="ss-tag">Superset · back to back</span></div>
+        <div class="srow ss"><span class="snum">5<em>16 reps</em></span><span class="inp ph">---</span><span class="inp ph">---</span></div>
+        <div class="srow ss"><span class="snum">6<em>16 · Incline DB</em></span><span class="inp ph">---</span><span class="inp ph">---</span></div>
+      </div>
+
+      <div class="exc">
+        <div class="exc-head"><span class="exc-n">Lat Pulldown</span><span class="exc-t">16/14/12/10</span></div>
+        <div class="exc-sub">Superset with Seated Row</div>
+        <div class="grid-head"><span>Set</span><span>Weight</span><span>Reps</span></div>
+        <div class="srow"><span class="snum">1<em>16 reps</em></span><span class="inp ph">---</span><span class="inp ph">---</span></div>
+        <div class="srow"><span class="snum">2<em>14 reps</em></span><span class="inp ph">---</span><span class="inp ph">---</span></div>
+      </div>
+
+      <div class="exc flexslot">
+        <div class="exc-head"><span class="exc-n">Leg Press</span><span class="exc-t">16/14/12/10</span></div>
+        <div class="row" style="margin-top:6px"><span class="pill flexs">Flex slot</span><span class="note">Quads this week · tap to change the muscle</span></div>
+      </div>
+
+      <button class="btn ghost sm">+ Add exercise</button>
+    </div>
+    <div class="scrollfade"></div>
+    <div class="nav"><i><span></span>Today</i><i class="on"><span></span>Train</i><i><span></span>Eat</i><i><span></span>Stats</i><i><span></span>Records</i></div>
+  </div>
+</div>
+
+<!-- FRAME 2: Friday -->
+<div class="frame">
+  <div class="frame-cap">2 — <b>Friday</b> · no superset, focus adds one</div>
+  <div class="phone">
+    <div class="hdr">
+      <div class="hdr-back">‹</div>
+      <div><div class="hdr-t">Friday · Chest week</div><div class="hdr-s">PB BFL · cycle 1 · week 1</div></div>
+      <div class="hdr-act">Finish</div>
+    </div>
+    <div class="body">
+      <div class="callout">Friday runs the same 16/14/12/10 ladder <b>without the superset</b>. This week is chest, so chest gets the extra exercise.</div>
+
+      <div class="exc">
+        <div class="exc-head"><span class="exc-n">Incline Barbell Press</span><span class="exc-t">16/14/12/10</span></div>
+        <div class="row" style="margin-top:6px"><span class="pill extra">Week&rsquo;s extra · chest</span></div>
+        <div class="grid-head"><span>Set</span><span>Weight</span><span>Reps</span></div>
+        <div class="srow"><span class="snum">1<em>16 reps</em></span><span class="inp">75</span><span class="inp">16</span></div>
+        <div class="srow"><span class="snum">2<em>14 reps</em></span><span class="inp ph">---</span><span class="inp ph">---</span></div>
+        <div class="srow"><span class="snum">3<em>12 reps</em></span><span class="inp ph">---</span><span class="inp ph">---</span></div>
+        <div class="srow"><span class="snum">4<em>10 reps</em></span><span class="inp ph">---</span><span class="inp ph">---</span></div>
+      </div>
+
+      <div class="exc">
+        <div class="exc-head"><span class="exc-n">Cable Fly</span><span class="exc-t">16/14/12/10</span></div>
+        <div class="grid-head"><span>Set</span><span>Weight</span><span>Reps</span></div>
+        <div class="srow"><span class="snum">1<em>16 reps</em></span><span class="inp ph">---</span><span class="inp ph">---</span></div>
+        <div class="srow"><span class="snum">2<em>14 reps</em></span><span class="inp ph">---</span><span class="inp ph">---</span></div>
+      </div>
+
+      <div class="exc flexslot">
+        <div class="exc-head"><span class="exc-n">Romanian Deadlift</span><span class="exc-t">16/14/12/10</span></div>
+        <div class="row" style="margin-top:6px"><span class="pill flexs">Flex 1</span><span class="note">Hamstrings · tap to change</span></div>
+      </div>
+      <div class="exc flexslot">
+        <div class="exc-head mut"><span class="exc-n" style="color:var(--text-muted);font-weight:500">Choose an exercise</span><span class="exc-t">16/14/12/10</span></div>
+        <div class="row" style="margin-top:6px"><span class="pill flexs">Flex 2</span><span class="note">Muscle not set yet</span></div>
+      </div>
+    </div>
+    <div class="scrollfade"></div>
+    <div class="nav"><i><span></span>Today</i><i class="on"><span></span>Train</i><i><span></span>Eat</i><i><span></span>Stats</i><i><span></span>Records</i></div>
+  </div>
+</div>
+
+<!-- FRAME 3: the cycle editor -->
+<div class="frame">
+  <div class="frame-cap">3 — <b>Cycle setup</b> · ladder + flex + focus</div>
+  <div class="phone">
+    <div class="hdr">
+      <div class="hdr-back">‹</div>
+      <div><div class="hdr-t">Cycle 1 exercises</div><div class="hdr-s">Used by weeks 1–5</div></div>
+      <div class="hdr-act">Done</div>
+    </div>
+    <div class="body">
+      <div class="weeks">
+        <div class="wk now"><div class="n">W1</div><div class="m">Chest</div></div>
+        <div class="wk"><div class="n">W2</div><div class="m">Biceps</div></div>
+        <div class="wk"><div class="n">W3</div><div class="m">Triceps</div></div>
+        <div class="wk"><div class="n">W4</div><div class="m">Delts</div></div>
+        <div class="wk flex"><div class="n">W5</div><div class="m">Flex</div></div>
+      </div>
+      <div class="note">The week&rsquo;s muscle decides which extra exercise appears on Friday. It does not change anything else.</div>
+
+      <div class="card" style="padding:11px">
+        <div class="row"><span class="lbl">Set ladder</span><span style="margin-left:auto" class="exc-t">16 / 14 / 12 / 10</span></div>
+        <div class="row" style="margin-top:9px;gap:6px;flex-wrap:wrap">
+          <span class="pill now">Superset on Mon &amp; Wed</span><span class="pill">16 + 16</span>
+        </div>
+        <div class="note" style="margin-top:8px">Friday runs the ladder with no superset. Change the numbers once and every exercise in the cycle follows.</div>
+      </div>
+
+      <div class="lbl" style="margin-top:2px">Monday · upper body</div>
+      <div class="exc" style="padding:10px"><div class="exc-head"><span class="exc-n" style="font-size:15px">Barbell Bench Press</span><span class="exc-t">+ Incline DB</span></div></div>
+      <div class="exc" style="padding:10px"><div class="exc-head"><span class="exc-n" style="font-size:15px">Lat Pulldown</span><span class="exc-t">+ Seated Row</span></div></div>
+      <div class="exc flexslot" style="padding:10px"><div class="exc-head"><span class="exc-n" style="font-size:15px">Leg Press</span><span class="pill flexs">Flex</span></div></div>
+
+      <div class="lbl" style="margin-top:4px">Friday · focus day</div>
+      <div class="exc" style="padding:10px"><div class="exc-head"><span class="exc-n" style="font-size:15px">Cable Fly</span><span class="exc-t">no superset</span></div></div>
+      <div class="exc flexslot" style="padding:10px"><div class="exc-head"><span class="exc-n" style="font-size:15px">Romanian Deadlift</span><span class="pill flexs">Flex 1</span></div></div>
+      <div class="exc flexslot" style="padding:10px"><div class="exc-head"><span class="exc-n" style="font-size:15px;color:var(--text-muted);font-weight:500">Not set</span><span class="pill flexs">Flex 2</span></div></div>
+    </div>
+    <div class="scrollfade"></div>
+    <div class="nav"><i><span></span>Today</i><i class="on"><span></span>Train</i><i><span></span>Eat</i><i><span></span>Stats</i><i><span></span>Records</i></div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
