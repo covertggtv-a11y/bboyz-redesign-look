@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PB BFL v2 — exercises live in the block, not the week</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand-blue:#1f5eff; --gold:#d4a72c; --accent:#d4a72c; --accent-dim:#f0c75a;
+  --accent-bg:rgba(212,167,44,.12); --accent-border:rgba(212,167,44,.34); --accent-contrast:#07101f;
+  --bg:#07101f; --surface:#0d1830; --surface-2:#13213b; --surface-3:#1b2d50;
+  --border:#223452; --border-bright:#34517d;
+  --text:#edf4ff; --text-dim:#aebbd0; --text-muted:#8493aa;
+  --danger:#ef6464; --shadow-strong:rgba(0,0,0,.34);
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px; --r-pill:9999px;
+  --sans:'Bricolage Grotesque',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050b16;font-family:var(--sans);color:var(--text);padding:32px 24px 56px}
+.sheet-title{font-size:22px;font-weight:600;letter-spacing:-.2px;margin-bottom:6px}
+.sheet-sub{font-size:14px;color:var(--text-muted);margin-bottom:26px;max-width:920px;line-height:1.55}
+.sheet-sub b{color:var(--accent-dim);font-weight:600}
+.rail{display:flex;gap:28px;align-items:flex-start;overflow-x:auto;padding-bottom:16px}
+.frame{flex:0 0 390px;width:390px}
+.frame-cap{font-size:12px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+.frame-cap b{color:var(--accent-dim);font-weight:600}
+.phone{width:390px;height:844px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;position:relative;box-shadow:0 8px 24px var(--shadow-strong);display:flex;flex-direction:column}
+.hdr{height:56px;flex:0 0 56px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--border);background:rgba(7,16,31,.88)}
+.hdr-back{width:40px;height:44px;margin-left:-10px;display:flex;align-items:center;color:var(--text-dim);font-size:20px}
+.hdr-t{font-size:18px;font-weight:700;letter-spacing:-.1px}
+.hdr-s{font-size:12px;color:var(--text-muted);margin-top:1px}
+.hdr-act{margin-left:auto;font-size:14px;font-weight:600;color:var(--brand-blue)}
+.body{flex:1;overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:12px}
+.nav{height:68px;flex:0 0 68px;border-top:1px solid var(--border);background:rgba(7,16,31,.94);display:flex;align-items:center;padding:0 16px}
+.nav i{flex:1;text-align:center;font-size:11px;font-weight:600;color:var(--text-muted);font-style:normal;display:flex;flex-direction:column;gap:5px;align-items:center}
+.nav i span{width:20px;height:20px;border-radius:6px;background:var(--surface-3);display:block}
+.nav i.on{color:var(--accent)} .nav i.on span{background:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px}
+.lbl{font-size:12px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-muted)}
+.mut{color:var(--text-muted)} .dim{color:var(--text-dim)}
+.mono{font-family:var(--mono)}
+.row{display:flex;align-items:center;gap:12px}
+.sp{margin-left:auto}
+.weeks{display:flex;gap:8px}
+.wk{flex:1;min-height:62px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface-2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 2px}
+.wk .n{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text-dim)}
+.wk .m{font-size:10px;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.15}
+.wk.now{border-color:var(--accent-border);background:var(--accent-bg)}
+.wk.now .n{color:var(--accent)} .wk.now .m{color:var(--accent-dim)}
+.wk.flex{border-style:dashed;border-color:var(--border-bright)}
+.drow{display:flex;align-items:center;gap:12px;min-height:60px;padding:8px 0;border-bottom:1px solid var(--border)}
+.drow:last-child{border-bottom:0}
+.dkey{width:38px;flex:0 0 38px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase}
+.dname{display:block;font-size:16px;font-weight:600}
+.dsub{display:block;font-size:12px;color:var(--text-muted);margin-top:3px;font-family:var(--mono)}
+.chev{color:var(--text-muted);font-size:18px;margin-left:auto}
+.pill{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:var(--r-pill);font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;background:var(--surface-3);color:var(--text-dim);border:1px solid var(--border);white-space:nowrap}
+.pill.now{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent)}
+.pill.free{background:transparent;border-style:dashed}
+.btn{min-height:48px;border-radius:var(--r-md);border:1px solid var(--border-bright);background:var(--surface-2);color:var(--text);font-family:var(--sans);font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-contrast)}
+.btn.ghost{background:transparent;border-style:dashed;color:var(--text-dim)}
+.btn.sm{min-height:44px;font-size:14px}
+.ex{border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface-2);padding:11px 12px;display:flex;align-items:center;gap:10px}
+.ex.empty{border-style:dashed;background:transparent}
+.ex-n{font-size:15px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ex-n.ph{color:var(--text-muted);font-weight:500}
+.ex-t{font-family:var(--mono);font-size:13px;color:var(--text-muted);white-space:nowrap}
+.ex-last{font-size:11px;color:var(--text-muted);font-family:var(--mono);margin-top:4px}
+.exgroup{display:grid;gap:8px;margin-top:8px}
+.note{font-size:12px;color:var(--text-muted);line-height:1.55}
+.callout{border:1px solid var(--accent-border);background:var(--accent-bg);border-radius:var(--r-md);padding:12px;font-size:13px;color:var(--accent-dim);line-height:1.5}
+.scrollfade{position:absolute;left:0;right:0;bottom:68px;height:36px;background:linear-gradient(transparent,var(--bg));pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="sheet-title">PB BFL v2 — the exercises belong to the block, not the week</div>
+<div class="sheet-sub">You said the exercises stay the same for the four weeks, week 5 is the same exercises light or heavy, and week 6 resets with new movements. So exercises move <b>out of the week and into the cycle</b>: you choose them once, all five weeks use them, and starting cycle 2 clears them so you have to pick something new. The weekly muscle stays as a label for what to push hardest.</div>
+
+<div class="rail">
+
+<!-- FRAME 1 -->
+<div class="frame">
+  <div class="frame-cap">1 — <b>The cycle</b> · weeks + one exercise set</div>
+  <div class="phone">
+    <div class="hdr">
+      <div class="hdr-back">‹</div>
+      <div><div class="hdr-t">PB BFL</div><div class="hdr-s">Cycle 1 · week 2 of 5</div></div>
+      <div class="hdr-act">Edit</div>
+    </div>
+    <div class="body">
+      <div class="weeks">
+        <div class="wk"><div class="n">W1</div><div class="m">Chest</div></div>
+        <div class="wk now"><div class="n">W2</div><div class="m">Biceps</div></div>
+        <div class="wk"><div class="n">W3</div><div class="m">Triceps</div></div>
+        <div class="wk"><div class="n">W4</div><div class="m">Shoulders</div></div>
+        <div class="wk flex"><div class="n">W5</div><div class="m">Flex</div></div>
+      </div>
+
+      <div class="callout">Every week below trains the <b>same exercises</b>. The muscle named on a week is what you go heavy on that week — it doesn&rsquo;t change the movements.</div>
+
+      <div class="card" style="padding:4px 14px">
+        <div class="drow">
+          <span class="dkey">Mon</span>
+          <span style="flex:1;min-width:0"><span class="dname">Upper body</span><span class="dsub">Freestyle · your pick</span></span>
+          <span class="pill free">Free</span><span class="chev">›</span>
+        </div>
+        <div class="drow">
+          <span class="dkey">Wed</span>
+          <span style="flex:1;min-width:0"><span class="dname">Upper body</span><span class="dsub">Freestyle · your pick</span></span>
+          <span class="pill free">Free</span><span class="chev">›</span>
+        </div>
+        <div class="drow">
+          <span class="dkey">Fri</span>
+          <span style="flex:1;min-width:0"><span class="dname">Focus day</span><span class="dsub">4 exercises · 12 sets</span></span>
+          <span class="pill">Set</span><span class="chev">›</span>
+        </div>
+      </div>
+
+      <div class="lbl" style="margin-top:2px">This cycle&rsquo;s exercises</div>
+      <div class="card" style="padding:12px">
+        <div class="row"><span class="dim" style="font-size:14px">Chosen once. Used by all five weeks.</span></div>
+        <div class="exgroup">
+          <div class="ex"><span class="ex-n">Barbell Bench Press</span><span class="ex-t">3 × 8</span></div>
+          <div class="ex"><span class="ex-n">Incline Dumbbell Press</span><span class="ex-t">3 × 10</span></div>
+          <div class="ex"><span class="ex-n">EZ-Bar Curl</span><span class="ex-t">3 × 10</span></div>
+          <div class="ex"><span class="ex-n">Triceps Pushdown</span><span class="ex-t">3 × 12</span></div>
+        </div>
+        <button class="btn ghost sm" style="margin-top:10px">Change these exercises</button>
+      </div>
+
+      <button class="btn primary" style="margin-top:auto">Start Wednesday&rsquo;s workout</button>
+    </div>
+    <div class="scrollfade"></div>
+    <div class="nav"><i><span></span>Today</i><i class="on"><span></span>Train</i><i><span></span>Eat</i><i><span></span>Stats</i><i><span></span>Records</i></div>
+  </div>
+</div>
+
+<!-- FRAME 2 -->
+<div class="frame">
+  <div class="frame-cap">2 — <b>Edit once</b> · applies to all five weeks</div>
+  <div class="phone">
+    <div class="hdr">
+      <div class="hdr-back">‹</div>
+      <div><div class="hdr-t">Cycle 1 exercises</div><div class="hdr-s">Used by weeks 1–5</div></div>
+      <div class="hdr-act">Done</div>
+    </div>
+    <div class="body">
+      <div class="callout">Change anything here and it changes for the whole cycle. You are not editing week 2.</div>
+
+      <div class="lbl">Monday · upper body</div>
+      <div class="ex empty"><span class="ex-n ph">Freestyle — you pick in the gym</span></div>
+
+      <div class="lbl" style="margin-top:6px">Wednesday · upper body</div>
+      <div class="ex empty"><span class="ex-n ph">Freestyle — you pick in the gym</span></div>
+
+      <div class="lbl" style="margin-top:6px">Friday · focus day</div>
+      <div class="exgroup">
+        <div class="ex"><span style="flex:1;min-width:0"><span class="ex-n" style="display:block">Barbell Bench Press</span><span class="ex-last">Last cycle · 140 lb × 8</span></span><span class="ex-t">3 × 8</span></div>
+        <div class="ex"><span style="flex:1;min-width:0"><span class="ex-n" style="display:block">Incline Dumbbell Press</span><span class="ex-last">Last cycle · 60 lb × 9</span></span><span class="ex-t">3 × 10</span></div>
+        <div class="ex"><span class="ex-n">EZ-Bar Curl</span><span class="ex-t">3 × 10</span></div>
+        <div class="ex"><span class="ex-n">Triceps Pushdown</span><span class="ex-t">3 × 12</span></div>
+      </div>
+      <button class="btn ghost sm" style="margin-top:10px">+ Add exercise</button>
+
+      <div class="note" style="margin-top:10px">Four movements covering the muscles you rotate through. Each week you go heavy on that week&rsquo;s muscle and hold the rest steady.</div>
+    </div>
+    <div class="scrollfade"></div>
+    <div class="nav"><i><span></span>Today</i><i class="on"><span></span>Train</i><i><span></span>Eat</i><i><span></span>Stats</i><i><span></span>Records</i></div>
+  </div>
+</div>
+
+<!-- FRAME 3 -->
+<div class="frame">
+  <div class="frame-cap">3 — <b>Week 6 resets</b> · new movements</div>
+  <div class="phone">
+    <div class="hdr">
+      <div class="hdr-back">‹</div>
+      <div><div class="hdr-t">Start cycle 2</div><div class="hdr-s">PB BFL · week 6</div></div>
+    </div>
+    <div class="body">
+      <div class="callout">Cycle 1 is done. Same block, <b>new movements</b> — swap each one for something that hits the same muscle a different way.</div>
+
+      <div class="lbl">Friday · focus day</div>
+      <div class="exgroup">
+        <div class="ex empty"><span style="flex:1;min-width:0"><span class="ex-n ph" style="display:block">Choose a chest press</span><span class="ex-last">Cycle 1 used Barbell Bench Press</span></span><span class="ex-t">3 × 8</span></div>
+        <div class="ex empty"><span style="flex:1;min-width:0"><span class="ex-n ph" style="display:block">Choose an incline press</span><span class="ex-last">Cycle 1 used Incline Dumbbell Press</span></span><span class="ex-t">3 × 10</span></div>
+        <div class="ex empty"><span style="flex:1;min-width:0"><span class="ex-n ph" style="display:block">Choose a curl</span><span class="ex-last">Cycle 1 used EZ-Bar Curl</span></span><span class="ex-t">3 × 10</span></div>
+        <div class="ex empty"><span style="flex:1;min-width:0"><span class="ex-n ph" style="display:block">Choose a triceps movement</span><span class="ex-last">Cycle 1 used Triceps Pushdown</span></span><span class="ex-t">3 × 12</span></div>
+      </div>
+
+      <div class="note" style="margin-top:12px">Cycle 1 stays in your history and your records. Nothing you logged is deleted, and the estimates from it are what week 5 of cycle 2 will read.</div>
+
+      <button class="btn ghost sm" style="margin-top:12px">Reuse cycle 1&rsquo;s exercises instead</button>
+      <button class="btn primary" style="margin-top:auto">Start cycle 2</button>
+    </div>
+    <div class="scrollfade"></div>
+    <div class="nav"><i><span></span>Today</i><i class="on"><span></span>Train</i><i><span></span>Eat</i><i><span></span>Stats</i><i><span></span>Records</i></div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
